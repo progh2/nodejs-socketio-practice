@@ -23,7 +23,8 @@ io.sockets.on('connection', function(socket){
     console.log('Client Send data:', data);
 
     // 클라이언트에 smart 이벤트를 발생시킵니다.
-    io.sockets.emit('smart', data);
+    //io.sockets.emit('smart', data); // public
+    socket.broadcast.emit('smart', data);
     //socket.emit('smart', data);
   })
 });
