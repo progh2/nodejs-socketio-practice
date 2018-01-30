@@ -6,10 +6,22 @@
         window.onload = function(){
           // 소켓을 연결합니다.
           var socket = io.connect();
+
+          // 소켓 이벤트를 연결합니다.
+          socket.on('smart', function(data){
+            alert(data);
+          });
+
+          // 문서 객체 이벤트를 연결합니다.
+          document.getElementById('button').onclick = function(){
+            var text = document.getElementById('text').value;
+            socket.emit('hello', text);
+          };
         };
       </script>
   </head>
   <body>
-
+    <input type="text" id="text" value="똑똑똑~ 두유워너빌드 스노우맹~" />
+    <input type="button" id="button" value="말 보내기"  />
   </body>
 </html>
