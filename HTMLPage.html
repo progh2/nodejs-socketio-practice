@@ -6,36 +6,38 @@
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-  var room;
-  window.onload = function(){
-
-    // 변수를 선언합니다.
-    room = prompt('방 이름을 입력하세요.', '');
-
-    // 소켓을 연결합니다.
-    var socket = io.connect( );
-
-    socket.emit('join', room);
-    console.log('join 성공');
-    // 소켓 이벤트를 연결합니다.
-    socket.on('message', function(data){
-      // alert(data);
-       $('<p>' + data + '</p>').appendTo('body');
+    $(document).ready(function(){
+      // 변수를 선언합니다.
+      var socket = io.connect();
+      socket.on('message', function(data){
+        var output = '';
+        output += '<li>';
+        output += ' <h3>' + data.name + '</h3>';
+        output += ' <p>' + data.message + '</p>';
+        output += ' <p>' + data.date + '</p>';
+        output += '</li>';
+        $(output).prependTo('#content');
+      });
+      $('button').click(function(){
+        socket.emit('message', {
+          name: $('#name').val(),
+          message: $('#message').val(),
+          date: new Date().toUTCString()
+        })
+      });
     });
-
-
-    // 문서 객체 이벤트를 연결합니다.
-    document.getElementById('button').onclick = function(){
-      var text = document.getElementById('text').value;
-      console.log('button click',text);
-      socket.emit('join', room);
-      socket.emit('message', text);
-    }
-  }
   </script>
 </head>
 <body>
-  <input type="text" id="text" value="똑똑똑~ 두유워너빌드 스노우맹~" />
-  <input type="button" id="button" value="말 보내기"  />
+  <h1>Socket.io chat</h1>
+  <p>
+    Chat with Node.js
+  </p>
+  <hr />
+  <input id="name" />
+  <input id="message" />
+  <button>버튼</button>
+  <ul id="content">
+  </ul>
 </body>
 </html>
