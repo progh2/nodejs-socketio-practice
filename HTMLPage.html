@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-      <script src="/socket.io/socket.io.js"></script>
-      <script>
-        window.onload = function(){
-          // 소켓을 연결합니다.
-          var socket = io.connect();
+<head>
+  <meta charset="utf-8">
+  <link rel="shortcut icon" href="http://www.e-mirim.hs.kr/favicon.ico">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+  var room;
+  window.onload = function(){
 
-          // 소켓 이벤트를 연결합니다.
-          socket.on('smart', function(data){
-            alert(data);
-          });
+    // 변수를 선언합니다.
+    room = prompt('방 이름을 입력하세요.', '');
 
-          // 문서 객체 이벤트를 연결합니다.
-          document.getElementById('button').onclick = function(){
-            var text = document.getElementById('text').value;
-            socket.emit('hello', text);
-          };
-        };
-      </script>
-  </head>
-  <body>
-    <input type="text" id="text" value="똑똑똑~ 두유워너빌드 스노우맹~" />
-    <input type="button" id="button" value="말 보내기"  />
-  </body>
+    // 소켓을 연결합니다.
+    var socket = io.connect( );
+
+    socket.emit('join', room);
+    console.log('join 성공');
+    // 소켓 이벤트를 연결합니다.
+    socket.on('message', function(data){
+      // alert(data);
+       $('<p>' + data + '</p>').appendTo('body');
+    });
+
+
+    // 문서 객체 이벤트를 연결합니다.
+    document.getElementById('button').onclick = function(){
+      var text = document.getElementById('text').value;
+      console.log('button click',text);
+      socket.emit('join', room);
+      socket.emit('message', text);
+    }
+  }
+  </script>
+</head>
+<body>
+  <input type="text" id="text" value="똑똑똑~ 두유워너빌드 스노우맹~" />
+  <input type="button" id="button" value="말 보내기"  />
+</body>
 </html>

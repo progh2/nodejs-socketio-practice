@@ -4,26 +4,37 @@ var fs = require('fs')
 var socketio = require('socket.io');
 
 // 웹 서버를 생성합니다.
-var server = http.createServer(function (request, response){
+var server = http.createServer();
+// 소켓 서버를 생성 및 실행
+var io = socketio.listen(server);
+  var roomName = null;
+server.listen(3000, function(){
+  console.log('Server running at http://127.0.0.1:3000');
+});
+
+// 웹 서버 이벤트를 연결합니다.
+server.on('request', function (request, response){
   // HTMULPage.html 파일을 읽습니다.
   fs.readFile('HTMLPage.html', function( error, data){
     response.writeHead(200, { 'Content-Type':'text/html'});
     response.end(data);
   });
-}).listen(3000, function(){
-  console.log('Server running at http://127.0.0.1:3000');
 });
 
-// 소켓 서버를 생성 및 실행
-var io = socketio.listen(server);
 io.sockets.on('connection', function(socket){
-  // hello 이벤트
-  socket.on('hello', function(data){
-    // 클라이언트가 전송한 데이터를 출력합니다.
-    console.log('Client Send data:', data);
+  // 방 이름을 저장할 변수
 
-    // 클라이언트에 smart 이벤트를 발생시킵니다.
-    io.sockets.emit('smart', data);
-    //socket.emit('smart', data);
-  })
+
+  // join 이벤트
+  socket.on('join', function(data){
+    console.log('방 조인! : ' + data);
+    roomName = data;
+    socket.join(data);
+  });
+
+  // messasge 이벤트
+  socket.on('message', function(data){
+    console.log(':::'+roomName + ' message event! : ' + data );
+    io.sockets.in(roomName).emit('message', data);
+  });
 });
