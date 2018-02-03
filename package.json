@@ -1,7 +1,7 @@
 {
-  "name": "movie",
+  "name": "painter",
   "version": "1.0.0",
-  "description": "Ch12 영화예매 예제 ================= 실 시간 영화 예매 애플리케이션",
+  "description": "Ch15 실시간 온라인 그림판 예제\r =================\r 실시간 온라인 그림판 애플리케이션",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/progh2/nodejs-socketio-practice#readme",
   "dependencies": {
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "socket.io": "^1.7.4"
   }
