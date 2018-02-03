@@ -1,0 +1,23 @@
+{
+  "name": "movie",
+  "version": "1.0.0",
+  "description": "Ch12 영화예매 예제 ================= 실 시간 영화 예매 애플리케이션",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/progh2/nodejs-socketio-practice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/progh2/nodejs-socketio-practice/issues"
+  },
+  "homepage": "https://github.com/progh2/nodejs-socketio-practice#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^1.7.4"
+  }
+}
